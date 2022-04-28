@@ -1,7 +1,6 @@
 import ReactDOM from "react-dom";
 import React from "react";
 import "./styles.scss";
-const App = () => {
-  return <h1>Frontend-challenge!</h1>;
-};
+import { App } from "./App";
+
 ReactDOM.render(<App />, document.getElementById("app"));

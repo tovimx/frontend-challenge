@@ -5,6 +5,9 @@ const htmlPlugin = new HtmlWebPackPlugin({
 });
 module.exports = {
   mode: "development",
+  stats: {
+    warningsFilter: /export .* was not found in/,
+  },
   module: {
     rules: [
       {
@@ -18,7 +21,21 @@ module.exports = {
         test: /\.s[ac]ss$/i,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
+      {
+        test: /\.tsx?$/,
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              transpileOnly: true,
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [htmlPlugin],
+  resolve: {
+    extensions: [".ts", ".js", ".tsx"],
+  },
 };
