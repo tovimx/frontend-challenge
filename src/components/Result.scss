@@ -1,0 +1,22 @@
+.result {
+  display: flex;
+  gap: 1em;
+  padding: 0.5em;
+  cursor: pointer;
+  border-radius: 8px;
+  &:hover {
+    background-color: #f7f7f7;
+  }
+}
+.result-info {
+  display: flex;
+  flex-direction: column;
+}
+.result_image {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+.result-info__title--bold {
+  font-weight: 900;
+}

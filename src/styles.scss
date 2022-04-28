@@ -10,27 +10,63 @@ html {
   }
 }
 
-.container {
+body {
+  font-family: "Gill Sans Extrabold", Helvetica, sans-serif;
+}
+main {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  height: 100%;
+}
+
+.search-box {
   display: flex;
   position: absolute;
   align-items: center;
-  width: 100%;
-  margin: auto;
   justify-content: center;
   top: 20%;
+  flex-direction: column;
+  background: white;
+  border-radius: 8px;
+  height: fit-content;
+  align-self: center;
+  width: 70%;
+  @media only screen and (max-width: 956px) {
+    font-size: 24px;
+    width: 80%;
+    top: 10%;
+  }
 }
 
 .search-input {
-  background: white;
   border: none;
-  opacity: 40%;
   height: 2em;
   font-size: 32px;
   padding: 0.5em;
   border-radius: 8px;
-  width: 40%;
+  outline: none;
+  border-radius: 8px 8px 8px;
+  width: 100%;
   @media only screen and (max-width: 956px) {
     font-size: 24px;
-    width: fit-content;
   }
+}
+
+.results {
+  border-top: 1px solid;
+  width: 100%;
+}
+
+.results_group {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  padding: 0.5em;
+  font-size: 20px;
 }
