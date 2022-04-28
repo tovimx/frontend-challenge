@@ -1,0 +1,36 @@
+html {
+  background: url(/assets/background.jpeg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  @media screen and (max-width: 1024px) {
+    background-position: right;
+  }
+}
+
+.container {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  width: 100%;
+  margin: auto;
+  justify-content: center;
+  top: 20%;
+}
+
+.search-input {
+  background: white;
+  border: none;
+  opacity: 40%;
+  height: 2em;
+  font-size: 32px;
+  padding: 0.5em;
+  border-radius: 8px;
+  width: 40%;
+  @media only screen and (max-width: 956px) {
+    font-size: 24px;
+    width: fit-content;
+  }
+}
