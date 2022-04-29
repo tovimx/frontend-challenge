@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./styles.scss";
 import { fetchResults } from "./utils";
-import { ResultItem } from "./components/Result";
-
-type SearchResult = {
-  cover_image: string;
-  title: string;
-  year: string;
-  type: string;
-};
+import { Results, SearchHistory } from "./components";
+import { useSearchHistory } from "./hooks/useSearchHistory";
+import { SearchResult } from "./types";
 
 export const App = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
-  const [message, setMessage] = useState("");
+  const [showHistory, setShowHistory] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+  const { updateSearchHistory } = useSearchHistory();
+  const ref = useRef(null);
 
   useEffect(() => {
     if (!query) {
@@ -24,6 +22,7 @@ export const App = () => {
       if (query) {
         try {
           const { results } = await fetchResults(query);
+          updateSearchHistory(query);
           if (results.length) {
             setMessage("");
             setResults(results);
@@ -41,8 +40,31 @@ export const App = () => {
     return () => clearTimeout(delayDebounceFn);
   }, [query]);
 
+  /* handle focus outside input to hide history */
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setShowHistory(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+
+  const displaySeachHistory = !message && !query && showHistory;
+
+  const onChangeHandler = useCallback((e) => {
+    setQuery(e.target.value);
+  }, []);
+
+  const displayHistory = useCallback(() => {
+    setShowHistory(true);
+  }, []);
+
   return (
-    <div className="search-box">
+    <div className="search-box" ref={ref}>
       <input
         className="search-input"
         aria-autocomplete="both"
@@ -54,17 +76,11 @@ export const App = () => {
         placeholder="Search artist"
         type="search"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={onChangeHandler}
+        onFocus={displayHistory}
       />
-      {!results.length || (
-        <section className="results">
-          <ul className="results_group">
-            {results.map((result) => (
-              <ResultItem {...result} />
-            ))}
-          </ul>
-        </section>
-      )}
+      <Results results={results} />
+      {displaySeachHistory && <SearchHistory onSelectTerm={setQuery} />}
       {message && <span className="message">{message}</span>}
     </div>
   );
