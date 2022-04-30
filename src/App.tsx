@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./styles.scss";
 import { fetchResults } from "./utils";
 import { Results, SearchHistory } from "./components";
-import { useSearchHistory } from "./hooks/useSearchHistory";
+import { useSearchHistory, useClickOutsite } from "./hooks";
 import { SearchResult } from "./types";
 
 export const App = () => {
@@ -11,7 +11,9 @@ export const App = () => {
   const [showHistory, setShowHistory] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const { updateSearchHistory } = useSearchHistory();
-  const ref = useRef(null);
+  const [inputRef] = useClickOutsite(() => {
+    setShowHistory(false);
+  });
 
   useEffect(() => {
     if (!query) {
@@ -40,19 +42,6 @@ export const App = () => {
     return () => clearTimeout(delayDebounceFn);
   }, [query]);
 
-  /* handle focus outside input to hide history */
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target)) {
-        setShowHistory(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ref]);
-
   const displaySeachHistory = !message && !query && showHistory;
 
   const onChangeHandler = useCallback((e) => {
@@ -64,7 +53,7 @@ export const App = () => {
   }, []);
 
   return (
-    <div className="search-box" ref={ref}>
+    <div className="search-box" ref={inputRef}>
       <input
         className="search-input"
         aria-autocomplete="both"

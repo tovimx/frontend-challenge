@@ -1,9 +1,14 @@
-.search-history-term {
+.search-history_item {
   display: flex;
   gap: 1rem;
   padding: 1rem;
 }
-
+.search-history_text {
+  flex: 1;
+}
+.search-history_action--grey {
+  color: grey;
+}
 .hidden {
   display: none;
 }
