@@ -21,15 +21,14 @@ export const SearchHistory: React.FC<SearchHistoryProps> = ({
           >
             {term}
           </span>
-          <span
-            className="search-history_action--grey"
+          <button
+            className="search-history_clear"
             onClick={() => {
-              console.log("x");
               deleteTerm(term);
             }}
           >
-            x
-          </span>
+            X
+          </button>
         </li>
       ))}
     </List>

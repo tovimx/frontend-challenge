@@ -6,8 +6,13 @@
 .search-history_text {
   flex: 1;
 }
-.search-history_action--grey {
+.search-history_clear {
   color: grey;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    color: black;
+  }
 }
 .hidden {
   display: none;
